@@ -10,7 +10,7 @@ type User struct {
 	ID          uint           `json:"id" gorm:"primary_key"`
 	Firstname   string         `json:"firstName"`
 	Lastname    string         `json:"lastName"`
-	Email       string         `json:"email"`
+	Email       string         `json:"email" gorm:"index:idx_name,unique"`
 	Password    string         `json:"password"`
 	CreatedDate time.Time      `json:"createdDate"`
 	UpdatedDate time.Time      `json:"updatedDate"`
