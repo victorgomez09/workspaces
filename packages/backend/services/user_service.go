@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/victin09/workspaces/database"
 	"github.com/victin09/workspaces/models"
+	"github.com/victin09/workspaces/utils"
 )
 
 type UpdateUserDto struct {
@@ -44,6 +45,16 @@ func GetUserByEmail(c *gin.Context) {
 
 	var user models.User
 	if err := database.DB.Where("email = ?", email).First(&user).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
+}
+
+func GetMe(c *gin.Context) {
+	user, err := utils.CurrentUser(c)
+	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
 	}

@@ -7,5 +7,9 @@ export type LoginInputs = {
 };
 
 export const login = async (data: LoginInputs) => {
-  return axios.post<string>(API_PARAMS.url, data);
+  return (
+    await axios.post<string>(`${API_PARAMS.url}/auth/login`, data, {
+      withCredentials: true,
+    })
+  ).data;
 };

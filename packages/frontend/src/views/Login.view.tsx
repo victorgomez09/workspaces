@@ -13,13 +13,15 @@ export function Login() {
   } = useForm<LoginInputs>({ mode: "onTouched" });
   const onSubmit: SubmitHandler<LoginInputs> = (data) => mutate(data);
 
-  const { mutate, isLoading, isSuccess } = useMutation(login);
+  const { mutate, isLoading, isSuccess, data } = useMutation(login);
 
   if (isLoading) return <Progress />;
 
   if (isSuccess) {
     // TODO: save token in cookies
-    navigate("/");
+
+    console.log("data", data);
+    // navigate("/");
   }
 
   return (

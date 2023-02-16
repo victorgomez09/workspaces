@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/victin09/workspaces/controllers"
@@ -12,6 +13,8 @@ import (
 
 func main() {
 	r := gin.Default()
+
+	r.Use(cors.Default())
 
 	err := godotenv.Load(".env")
 	if err != nil {

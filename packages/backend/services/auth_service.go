@@ -70,5 +70,6 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	c.SetCookie("token", token, 60*60*24, "/", "localhost", false, true)
 	c.JSON(http.StatusOK, token)
 }
