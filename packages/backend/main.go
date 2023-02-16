@@ -7,6 +7,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/victin09/workspaces/controllers"
 	"github.com/victin09/workspaces/database"
+	"github.com/victin09/workspaces/utils"
 )
 
 func main() {
@@ -17,11 +18,14 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
+	utils.RunInstaller()
+
 	database.InitSqlite()
 	database.MigrateDatabase()
 
 	controllers.InitAuthRoutes(r)
 	controllers.InitUserRoutes(r)
+	controllers.InitTemplateRoutes(r)
 
 	r.Run()
 }
