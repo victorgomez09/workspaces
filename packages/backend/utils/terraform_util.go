@@ -6,11 +6,14 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/hc-install/product"
 	"github.com/hashicorp/hc-install/releases"
 	"github.com/hashicorp/terraform-exec/tfexec"
+	"github.com/victin09/workspaces/database"
+	"github.com/victin09/workspaces/models"
 )
 
 const TERRAFORM_TEMPLATES_PATH = "/terraform"
@@ -56,6 +59,18 @@ func CreateTemplates() {
 	if err := CopyFile(coderVscodeTemplate+"/coder-vscode.tf", coderVsCodeDir+"/coder-vscode.tf"); err != nil {
 		log.Fatalf("Error creating Coder vscode template: %s", err)
 	}
+
+	bytes, err := os.ReadFile(coderVscodeTemplate + "/coder-vscode.tf")
+	if err != nil {
+		log.Fatalf("Error inserting Coder vscode template: %s", err)
+	}
+
+	template := models.Template{
+		Name:        "coder-vscode",
+		Value:       bytes,
+		CreatedDate: time.Now(),
+	}
+	database.DB.Create(&template)
 }
 
 func RunTemplate(workingDir string) (string, error) {

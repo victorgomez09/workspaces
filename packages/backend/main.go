@@ -12,23 +12,24 @@ import (
 )
 
 func main() {
-	r := gin.Default()
+	router := gin.Default()
 
-	r.Use(cors.Default())
+	router.Use(cors.Default())
 
 	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
 
-	utils.RunInstaller()
-
 	database.InitSqlite()
 	database.MigrateDatabase()
 
-	controllers.InitAuthRoutes(r)
-	controllers.InitUserRoutes(r)
-	controllers.InitTemplateRoutes(r)
+	utils.RunInstaller()
 
-	r.Run()
+	controllers.InitAuthRoutes(router)
+	controllers.InitUserRoutes(router)
+	controllers.InitTemplateRoutes(router)
+	controllers.InitWorkspaceRoutes(router)
+
+	router.Run()
 }

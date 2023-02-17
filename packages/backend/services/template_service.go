@@ -13,10 +13,6 @@ type TemplateDto struct {
 	Name string `json:"templateName" binding:"required"`
 }
 
-func InitTemplate(c *gin.Context) {
-
-}
-
 func GetAllTemplates(c *gin.Context) {
 	terraformDir := filepath.Join(os.Getenv("HOME"), ".workspaces/terraform")
 	entries, err := utils.ReadDir(terraformDir)
